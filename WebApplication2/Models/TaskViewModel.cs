@@ -1,0 +1,15 @@
+﻿namespace WebApplication2.Models
+{
+    public class TaskViewModel
+    {
+        private int _id;
+        public string Name { get; }
+        public DateTime DateCreate { get; }
+        public DateTime? DateFinish { get; }
+        public DateTime Deadline { get; }
+        public string[] Tags { get; }
+        public string Category { get; }
+        public string Priority { get; }
+        public string Comment { get; }
+    }
+}

@@ -1,0 +1,137 @@
+1) ответ 26 
+2)процедура необходима для определения отсутсвия старого дефекта среди новых 
+  если заменить FirstOrDefault() на First() то проверка будет невозможно так как метод First()  при отсутсвие соответствия выдаст исключение
+3) ответ 26 
+4)public unsafe void SimpleCopy(CoordinateItem* ccdItem)
+    {
+        (*ccdItem).Odometr = 123;
+        var odometer = (*ccdItem).Odometr;
+        
+    }
+
+так как это работа с небезопасными данными то просто используем указатели и так как мы передаем указатель на структуру данных 
+то получается что при изменение структуры данных через указатель  мы меняем сами данные 
+а без указателей мы передаем сыллку и создается локальная переменная область жизни и видимости которой являеться процедура
+
+5)string path = "test.txt";
+
+ushort? value = null;
+using (var binaryWriter = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
+{
+    binaryWriter.Seek(0, SeekOrigin.End);
+    for (ushort i = 0; i < 1000; i++)
+    {
+        ushort currentValue = i;
+        value = value ?? currentValue;
+        binaryWriter.Write((ushort)value);
+
+    }
+    binaryWriter.Flush();
+}
+
+нужна типизация или преобзование типов а также указать путь к файлу а также метод Write не принимает тип с null 
+процедура выполняет заполнение пробелами так как начинается с 0 идет выбор в пользу 0 из за того что value Изначально равно null  а после идет выбор в стоорону левого значение 
+тоесть в сторону value а так как value равно 0 то не важно чему будет равно currentvalue так как после первого сравнени всегда будет 0 а также можно сократить код и память
+
+string path = "test.txt";
+
+ushort? value = null;
+using (var binaryWriter = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
+{
+    binaryWriter.Seek(0, SeekOrigin.End);
+    for (ushort currentValue  = 0; currentValue  < 1000; currentValue ++)
+    {
+	value = value ?? currentValue;
+        binaryWriter.Write((ushort)value);
+    }
+    binaryWriter.Flush();
+}
+
+
+6) код не запуститься так как Ошибка	CS8803	Инструкции верхнего уровня должны предшествовать объявлениям пространств имен и типов.
+	если поднять процедуру main выше классов то программа выполниться с кодом 0 ничего не выводя в консоль
+
+
+static void Main(string[] args)
+{
+    var info = 5;
+    var entity = new Lie();
+    double data = info;
+    entity.Answer(info);
+    entity.Answer(data);
+}
+
+
+public class Truth
+{ 
+    public void Answer (double question) 
+    { 
+        Console.WriteLine ("true");
+    }
+}
+
+public class Lie : Truth
+{
+    public void Answer(int question)
+    {
+        Console.WriteLine("false");
+    }
+}
+
+
+что бы получить результат который задумывался как вариант можно обернуть метод мейн в класс 
+
+public class Truth
+{ 
+    public void Answer (double question) 
+    { 
+        Console.WriteLine ("true");
+    }
+}
+
+public class Lie : Truth
+{
+    public void Answer(int question)
+    {
+        Console.WriteLine("false");
+    }
+}
+
+public class Programm
+{
+    static void Main(string[] args)
+    {
+        var info = 5;
+        var entity = new Lie();
+        double data = info;
+        entity.Answer(info);
+        entity.Answer(data);
+    }
+
+}
+
+тогда программа выведет сначало false затем true так как не указав явно тип он будет присвоен  lie и по сути это обычная перегрузка по типу входных параметров 
+а не переопределение родительского метода птотому что их сигнатура разная и получается что Lie просто имеет два метода один с сигнатурой double второй с сигнатурой int
+так как родительский метод Public
+
+
+
+7) программа не запуститься  так как Ошибка	CS8421	Статическая локальная функция не может содержать ссылку на "RunMe".
+ если изменить код вот так
+class Program
+{
+    static IEnumerable<string> RunMe()
+    {
+        yield return "O\ne";
+        Console.WriteLine(@"\two");
+    }
+
+    static void Main(string[] args)
+    {
+        foreach (var str in RunMe())
+            Console.WriteLine(str);
+    }
+
+}
+
+тогда программа выведет O e \twod в столбик

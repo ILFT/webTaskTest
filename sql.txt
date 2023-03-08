@@ -1,0 +1,107 @@
+-- create
+CREATE TABLE TASKS (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  dataCreate DATE NOT NULL,
+  dataFinish DATE,
+  deadline DATE NOT NULL,
+  category INTEGER NOT NULL,
+  priority INTEGER NOT NULL,
+  comment TEXT NOT NULL
+);
+
+CREATE TABLE TAG (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE TASK_TAG (
+  idTask INTEGER REFERENCES TASKS(id) ON DELETE CASCADE NOT NULL,
+  idTag INTEGER REFERENCES TAG(id)  ON DELETE CASCADE NOT NULL
+);
+
+CREATE TABLE CATEGORY (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE PRIORITY (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL
+);
+
+
+-- insert
+INSERT INTO priority (id, name) values
+(1,'высокий'),
+(2,'средний'),
+(3,'низкий');
+
+INSERT INTO category (id, name) values
+(1,'Проект'),
+(2,'Поручение'),
+(3,'Инцидент');
+
+
+INSERT INTO tag (id, name) values
+(1,'Аренды'),
+(2,'Договоры'),
+(3,'Лицензия'),
+(4,'Отчетность'),
+(5,'Проверка'),
+(6,'Подписание');
+
+
+WITH NEW_TASK AS (
+INSERT INTO TASKS (name, dataCreate, dataFinish, deadline, category, priority, comment) 
+values 
+('Тестовый проект 4', current_date, NULL, current_date + 7, (SELECT id FROM CATEGORY WHERE name = 'Поручение'), (SELECT id FROM PRIORITY WHERE name = 'высокий'), 'проект для проверки работоспособности' )
+returning id
+)
+INSERT INTO task_tag
+SELECT (SELECT id FROM NEW_TASK), tag.id
+FROM  tag 
+WHERE tag.name in ('Аренды','Лицензия')
+
+
+-- insert
+Новая задача
+
+WITH NEW_TASK AS (
+INSERT INTO TASKS (name, dataCreate, dataFinish, deadline, category, priority, comment) 
+values 
+('Тестовый проект 4', current_date, NULL, current_date + 7, (SELECT id FROM CATEGORY WHERE name = 'Поручение'), (SELECT id FROM PRIORITY WHERE name = 'высокий'), 'проект для проверки работоспособности' )
+returning id
+)
+INSERT INTO task_tag
+SELECT (SELECT id FROM NEW_TASK), tag.id
+FROM  tag 
+WHERE tag.name in ('Аренды','Лицензия')
+
+
+
+
+
+
+завершение задачи
+UPDATE TASKS SET dataFinish = current_date WHERE dataFinish IS NULL and id = 'значение'  or name = 'значение';
+
+удаление задачи
+DELETE FROM TASKS
+  WHERE id = 'значение'  or name = 'значение';
+
+Обновление данных
+WITH UPDATE_TASK AS (
+UPDATE TASKS (name, dataCreate, dataFinish, deadline, category, priority, comment) =
+('Тестовый проект 4', 'date', 'date', 'date', (SELECT id FROM CATEGORY WHERE name = 'Поручение'), (SELECT id FROM PRIORITY WHERE name = 'высокий'), 'проект для проверки работоспособности' )
+returning id
+), DELETE_OLD as (
+DELETE FROM TASK_TAG
+	WHERE idTask = 'значение'
+)
+INSERT INTO task_tag
+SELECT (SELECT id FROM NEW_TASK), tag.id
+FROM  tag 
+WHERE tag.name in ('Аренды','Лицензия')
+
+
