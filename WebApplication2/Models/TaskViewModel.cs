@@ -11,5 +11,12 @@
         public string Category { get; }
         public string Priority { get; }
         public string Comment { get; }
+
+
+        public TaskViewModel()
+        { 
+           Name = 'сsharp'
+           DateCreate = DateTime.cur
+        }
     }
 }
