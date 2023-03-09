@@ -61,7 +61,7 @@ returning id
 INSERT INTO task_tag
 SELECT (SELECT id FROM NEW_TASK), tag.id
 FROM  tag 
-WHERE tag.name in ('Аренды','Лицензия')
+WHERE tag.name =  ANY('Аренды','Лицензия')
 
 
 -- insert
@@ -76,7 +76,7 @@ returning id
 INSERT INTO task_tag
 SELECT (SELECT id FROM NEW_TASK), tag.id
 FROM  tag 
-WHERE tag.name in ('Аренды','Лицензия')
+WHERE tag.name = ANY('Аренды','Лицензия')
 
 
 
