@@ -14,9 +14,15 @@
 
 
         public TaskViewModel()
-        { 
-           Name = 'сsharp'
-           DateCreate = DateTime.cur
+        {
+            Name = "сsharp";
+            DateCreate = DateTime.Now;
+            DateFinish = null;
+            Deadline = DateTime.Now.AddDays(4);
+            Tags = new string[] { "Аренды", "Лицензия" };
+            Category = "Поручение";
+            Priority = "высокий";
+            Comment = "задача добавленгная из c#"
         }
     }
 }
