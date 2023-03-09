@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebApplication2.Models;
+using WebApplication2.Models.Db;
 
 namespace WebApplication2.Controllers
 {
@@ -20,6 +21,9 @@ namespace WebApplication2.Controllers
 
         public IActionResult Privacy()
         {
+            var task = new TaskViewModel();
+            var DbTask = new DbTasks();
+            Console.WriteLine(DbTask.AddTask(task));
             return View();
         }
 

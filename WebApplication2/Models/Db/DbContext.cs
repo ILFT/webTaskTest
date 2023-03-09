@@ -6,12 +6,11 @@ namespace WebApplication2.Models.Db
     {
 
         public NpgsqlConnection connection { get; }
-        string connString = "Host=localhost;Username=postgres;Password=123;Database=test";
+        string connString = "Host=localhost:5432;Username=postgres;Password=123;Database=test";
 
         public DbContext() {
             connection = new NpgsqlConnection(connString);
             connection.Open();
-
         }
 
     }
