@@ -25,7 +25,7 @@
             Priority = task.Priority;
             Comment = task.Comment;
         }*/
-        public TaskViewModel(int id, string name, DateTime dateCreate, DateTime? dateFinish, DateTime deadline, string[] tags, string category, string priority, string comment)
+        public TaskViewModel(int id, string name, DateTime dateCreate, DateTime? dateFinish, DateTime deadline, string category, string priority, string comment, string[] tags )
         {
             Id = id;
             Name = name;
@@ -36,6 +36,11 @@
             Category = category;
             Priority = priority;
             Comment = comment;
+        }
+
+        public string ToString()
+        { 
+            return Id + (" ")+ Name + (" ") + DateCreate + (" ") + DateFinish + (" ") + Deadline + (" ") + Category + (" ") + Priority + (" ") + Comment + (" ") + Tags;
         }
      
     }

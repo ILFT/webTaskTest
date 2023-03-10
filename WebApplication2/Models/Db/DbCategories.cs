@@ -12,18 +12,15 @@ namespace WebApplication2.Models.Db
         public string[] AllCategories()
         {
             var connection = (new DbContext()).connection;
-            string commandText = $"select category.name from category";
+            string commandText = $"select name from category";
             List<string> resultList  = new List<string>();
 
             NpgsqlDataReader reader = (new NpgsqlCommand(commandText, connection)).ExecuteReader();
             while (reader.Read())
             {
                 resultList.Add(reader[0].ToString());
-                Console.WriteLine(reader[0].ToString());
             }
                 
-
-            Console.WriteLine(resultList.ToString());
             return resultList.ToArray();
 
         }
