@@ -21,9 +21,8 @@ namespace WebApplication2.Controllers
 
         public IActionResult Privacy()
         {
-            var task = new TaskViewModel();
-            var DbTask = new DbTasks();
-            DbTask.UpdateTask(task);
+            var DbTask = new DbCategories();
+            DbTask.AllCategories();
             return View();
         }
 

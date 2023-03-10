@@ -38,7 +38,7 @@ namespace WebApplication2.Models.Db
 
             await using (var cmd = new NpgsqlCommand(commandText, connection))
             {
-                cmd.Parameters.AddWithValue("id", task.id);
+                cmd.Parameters.AddWithValue("id", task.Id);
 
                 await cmd.ExecuteNonQueryAsync();
 
@@ -53,7 +53,7 @@ namespace WebApplication2.Models.Db
 
             await using (var cmd = new NpgsqlCommand(commandText, connection))
             {
-                cmd.Parameters.AddWithValue("id", task.id);
+                cmd.Parameters.AddWithValue("id", task.Id);
 
                 await cmd.ExecuteNonQueryAsync();
 
@@ -69,7 +69,7 @@ namespace WebApplication2.Models.Db
             await using (var cmd = new NpgsqlCommand(commandText, connection))
             {
             
-                cmd.Parameters.AddWithValue("idTask", task.id);
+                cmd.Parameters.AddWithValue("idTask", task.Id);
                 cmd.Parameters.AddWithValue("nameTask", task.Name);
 
                 cmd.Parameters.AddWithValue("dateCreateTask", task.DateCreate);

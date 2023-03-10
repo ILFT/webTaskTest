@@ -2,7 +2,7 @@
 {
     public class TaskViewModel
     {
-        public int id { get; }
+        public int Id { get; }
         public string Name { get; }
         public DateTime DateCreate { get; }
         public DateTime? DateFinish { get; }
@@ -13,17 +13,30 @@
         public string Comment { get; }
 
 
-        public TaskViewModel()
+      /*  public TaskViewModel(TaskViewModel task)
         {
-            id = 5;
-            Name = "сsharp update";
-            DateCreate = DateTime.Now;
-            DateFinish = null;
-            Deadline = DateTime.Now.AddDays(11);
-            Tags = new string[] { "Проверка", "Подписание" };
-            Category = "Проект";
-            Priority = "низкий";
-            Comment = "замена задачач добавленной из c#";
+            Id = task.Id;
+            Name = task.Name;
+            DateCreate = task.DateCreate;
+            DateFinish = task.DateFinish;
+            Deadline = task.Deadline;
+            Tags = task.Tags;
+            Category = task.Category;
+            Priority = task.Priority;
+            Comment = task.Comment;
+        }*/
+        public TaskViewModel(int id, string name, DateTime dateCreate, DateTime? dateFinish, DateTime deadline, string[] tags, string category, string priority, string comment)
+        {
+            Id = id;
+            Name = name;
+            DateCreate = dateCreate;
+            DateFinish = dateFinish;
+            Deadline = deadline;
+            Tags = tags;
+            Category = category;
+            Priority = priority;
+            Comment = comment;
         }
+     
     }
 }
