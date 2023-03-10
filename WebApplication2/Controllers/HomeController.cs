@@ -23,7 +23,7 @@ namespace WebApplication2.Controllers
         {
             var task = new TaskViewModel();
             var DbTask = new DbTasks();
-            Console.WriteLine(DbTask.AddTask(task));
+            DbTask.UpdateTask(task);
             return View();
         }
 

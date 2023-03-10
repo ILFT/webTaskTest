@@ -2,7 +2,7 @@
 {
     public class TaskViewModel
     {
-        private int _id;
+        public int id { get; }
         public string Name { get; }
         public DateTime DateCreate { get; }
         public DateTime? DateFinish { get; }
@@ -15,14 +15,15 @@
 
         public TaskViewModel()
         {
-            Name = "сsharp";
+            id = 5;
+            Name = "сsharp update";
             DateCreate = DateTime.Now;
             DateFinish = null;
-            Deadline = DateTime.Now.AddDays(4);
-            Tags = new string[] { "Аренды", "Лицензия" };
-            Category = "Поручение";
-            Priority = "высокий";
-            Comment = "задача добавленная из c#";
+            Deadline = DateTime.Now.AddDays(11);
+            Tags = new string[] { "Проверка", "Подписание" };
+            Category = "Проект";
+            Priority = "низкий";
+            Comment = "замена задачач добавленной из c#";
         }
     }
 }

@@ -15,9 +15,7 @@ namespace WebApplication2.Models.Db
         public async Task AddTask(TaskViewModel task) {
             var connection = (new DbContext()).connection;
             string commandText = $"WITH NEW_TASK AS (INSERT INTO TASKS (name, dataCreate, dataFinish, deadline, category, priority, comment) values (@nameTask, current_date, NULL, current_date + @duration, (SELECT id FROM CATEGORY WHERE name = @nameCategories), (SELECT id FROM PRIORITY WHERE name = @namePriority), @commentTask ) returning id) INSERT INTO task_tag SELECT (SELECT id FROM NEW_TASK), tag.id FROM  tag  WHERE tag.name = ANY(tagArray)";
-            //string commandText = $"WITH NEW_TASK AS (\r\nINSERT INTO TASKS (name, dataCreate, dataFinish, deadline, category, priority, comment) \r\nvalues \r\n('Тестовый проект csharp', current_date, NULL, current_date + 7, (SELECT id FROM CATEGORY WHERE name = 'Поручение'), (SELECT id FROM PRIORITY WHERE name = 'высокий'), 'проект для проверки работоспособности' )\r\nreturning id\r\n)\r\nINSERT INTO task_tag\r\nSELECT (SELECT id FROM NEW_TASK), tag.id\r\nFROM  tag \r\nWHERE tag.name in ('Аренды','Лицензия')\r\n";
-
-
+            
             await using (var cmd = new NpgsqlCommand(commandText, connection))
             {
                 cmd.Parameters.AddWithValue("nameTask", task.Name);
@@ -31,27 +29,61 @@ namespace WebApplication2.Models.Db
 
             }
 
-            /*await using var cmd = new NpgsqlCommand(commandText, connection)
-            {
-                Parameters =
-                {
-                    new("nameTask", task.Name),
-                    new("duration", (task.Deadline - task.DateCreate).Days),
-                    new("nameCategories", task.Category),
-                    new("namePriority", task.Priority),
-                    new("commentTask", task.Comment),
-                    new("tagArray",task.Tags),
-                }
-            };*/
-            /*Console.WriteLine(cmd.CommandText);
-            Console.WriteLine(cmd.Parameters[0].Value);
-            Console.WriteLine(cmd.Parameters[1].Value);
-            Console.WriteLine(cmd.Parameters[2].Value);
-            Console.WriteLine(cmd.Parameters[3].Value);
-            Console.WriteLine(cmd.Parameters[4].Value);
-            Console.WriteLine(cmd.Parameters[5].Value);
+        }
 
-            int rows = await cmd.ExecuteNonQueryAsync();*/
+        public async Task FinishTask(TaskViewModel task)
+        {
+            var connection = (new DbContext()).connection;
+            string commandText = $"UPDATE TASKS SET dataFinish = current_date WHERE dataFinish IS NULL and id = @id";
+
+            await using (var cmd = new NpgsqlCommand(commandText, connection))
+            {
+                cmd.Parameters.AddWithValue("id", task.id);
+
+                await cmd.ExecuteNonQueryAsync();
+
+            }
+
+        }
+
+        public async Task DeleteTask(TaskViewModel task)
+        {
+            var connection = (new DbContext()).connection;
+            string commandText = $"DELETE FROM TASKS  WHERE id = @id";
+
+            await using (var cmd = new NpgsqlCommand(commandText, connection))
+            {
+                cmd.Parameters.AddWithValue("id", task.id);
+
+                await cmd.ExecuteNonQueryAsync();
+
+            }
+
+        }
+
+        public async Task UpdateTask(TaskViewModel task)
+        {
+            var connection = (new DbContext()).connection;
+            string commandText = $"WITH UPDATE_TASK AS (UPDATE TASKS SET (name, dataCreate, dataFinish, deadline, category, priority, comment) = (@nameTask, @dateCreateTask, @dateFinishTask, @deadlineTask, (SELECT id FROM CATEGORY WHERE name = @nameCategories), (SELECT id FROM PRIORITY WHERE name = @namePriority), @commentTask ) WHERE id = @idTask  returning id), DELETE_OLD as ( DELETE FROM TASK_TAG WHERE idTask = @idTask ) INSERT INTO task_tag SELECT (SELECT id FROM UPDATE_TASK), tag.id FROM  tag WHERE tag.name = ANY(@tagArray)";
+
+            await using (var cmd = new NpgsqlCommand(commandText, connection))
+            {
+            
+                cmd.Parameters.AddWithValue("idTask", task.id);
+                cmd.Parameters.AddWithValue("nameTask", task.Name);
+
+                cmd.Parameters.AddWithValue("dateCreateTask", task.DateCreate);
+                cmd.Parameters.AddWithValue("dateFinishTask", (task.DateFinish is null) ? DBNull.Value : task.DateFinish) ;
+                cmd.Parameters.AddWithValue("deadlineTask", task.Deadline);
+
+                cmd.Parameters.AddWithValue("nameCategories", task.Category);
+                cmd.Parameters.AddWithValue("namePriority", task.Priority);
+                cmd.Parameters.AddWithValue("commentTask", task.Comment);
+                cmd.Parameters.AddWithValue("tagArray", task.Tags);
+
+                await cmd.ExecuteNonQueryAsync();
+
+            }
 
         }
     }

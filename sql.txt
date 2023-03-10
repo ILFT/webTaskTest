@@ -67,16 +67,13 @@ WHERE tag.name =  ANY('Аренды','Лицензия')
 -- insert
 Новая задача
 
-WITH NEW_TASK AS (
-INSERT INTO TASKS (name, dataCreate, dataFinish, deadline, category, priority, comment) 
+WITH NEW_TASK AS (INSERT INTO TASKS (name, dataCreate, dataFinish, deadline, category, priority, comment) 
 values 
-('Тестовый проект 4', current_date, NULL, current_date + 7, (SELECT id FROM CATEGORY WHERE name = 'Поручение'), (SELECT id FROM PRIORITY WHERE name = 'высокий'), 'проект для проверки работоспособности' )
-returning id
-)
-INSERT INTO task_tag
-SELECT (SELECT id FROM NEW_TASK), tag.id
-FROM  tag 
-WHERE tag.name = ANY('Аренды','Лицензия')
+(@nameTask, current_date, NULL, current_date + @duration, (SELECT id FROM CATEGORY WHERE name = @nameCategories), (SELECT id FROM PRIORITY WHERE name = @namePriority), @commentTask ) 
+returning id) 
+INSERT INTO task_tag SELECT (SELECT id FROM NEW_TASK), tag.id 
+FROM  tag  
+WHERE tag.name = ANY(@tagArray)
 
 
 
@@ -84,24 +81,20 @@ WHERE tag.name = ANY('Аренды','Лицензия')
 
 
 завершение задачи
-UPDATE TASKS SET dataFinish = current_date WHERE dataFinish IS NULL and id = 'значение'  or name = 'значение';
+UPDATE TASKS SET dataFinish = current_date WHERE dataFinish IS NULL and id = @id  ;
 
 удаление задачи
-DELETE FROM TASKS
-  WHERE id = 'значение'  or name = 'значение';
+DELETE FROM TASKS  
+WHERE id = @id;
 
 Обновление данных
 WITH UPDATE_TASK AS (
-UPDATE TASKS (name, dataCreate, dataFinish, deadline, category, priority, comment) =
-('Тестовый проект 4', 'date', 'date', 'date', (SELECT id FROM CATEGORY WHERE name = 'Поручение'), (SELECT id FROM PRIORITY WHERE name = 'высокий'), 'проект для проверки работоспособности' )
-returning id
-), DELETE_OLD as (
-DELETE FROM TASK_TAG
-	WHERE idTask = 'значение'
-)
-INSERT INTO task_tag
-SELECT (SELECT id FROM NEW_TASK), tag.id
+UPDATE TASKS SET (name, dataCreate, dataFinish, deadline, category, priority, comment) = (@nameTask, @dateCreate, @dateFinish, @deadline, (SELECT id FROM CATEGORY WHERE name = @nameCategories), (SELECT id FROM PRIORITY WHERE name = @namePriority), @commentTask ) 
+WHERE id = @idTask  returning id), DELETE_OLD as ( 
+DELETE FROM TASK_TAG WHERE idTask = @idTask ) 
+INSERT INTO task_tag 
+SELECT (SELECT id FROM UPDATE_TASK), tag.id 
 FROM  tag 
-WHERE tag.name in ('Аренды','Лицензия')
+WHERE tag.name = ANY(@tagArray)
 
 
