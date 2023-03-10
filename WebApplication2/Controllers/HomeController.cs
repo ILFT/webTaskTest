@@ -16,13 +16,12 @@ namespace WebApplication2.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<TaskViewModel> tasks = (new DbTasks().AllTasks());
+            return View(tasks);
         }
 
         public IActionResult Privacy()
         {
-            var DbTask = new DbTasks();
-            DbTask.AllTasks();
             return View();
         }
 

@@ -1,8 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model IEnumerable<TaskViewModel>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+    @foreach (var item in Model)
+    {
+        <p>@item.Name </p>
+        <p>@item.DateCreate </p>
+        <p>@item.DateFinish </p>
+        <p>@item.Deadline </p>
+        <p>@item.Tags </p>
+        <p>@item.Category </p>
+        <p>@item.Priority </p>
+        <p>@item.Comment </p>
+        
+    }
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
