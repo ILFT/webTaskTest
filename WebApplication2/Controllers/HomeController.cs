@@ -20,9 +20,15 @@ namespace WebApplication2.Controllers
             return View(tasks);
         }
 
-        public IActionResult Privacy()
+        public IActionResult AddTask()
         {
             return View();
+        }
+
+        public IActionResult FinishTask(int id)
+        {
+            new DbTasks().FinishTask(id);
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

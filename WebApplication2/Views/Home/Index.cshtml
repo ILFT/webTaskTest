@@ -1,21 +1,49 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Задачи";
 }
 @model IEnumerable<TaskViewModel>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    @foreach (var item in Model)
-    {
-        <p>@item.Name </p>
-        <p>@item.DateCreate </p>
-        <p>@item.DateFinish </p>
-        <p>@item.Deadline </p>
-        <p>@item.Tags </p>
-        <p>@item.Category </p>
-        <p>@item.Priority </p>
-        <p>@item.Comment </p>
-        
-    }
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+   <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Имя Задачи</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Дата окончания</th>
+                <th scope="col">дедлайн</th>
+                <th scope="col">Теги</th>
+                <th scope="col">Категория</th>
+                <th scope="col">Приоритет</th>
+                <th scope="col">Коментарий</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            @foreach (var item in Model)
+            {
+
+
+                <tr>
+
+                    <td>@item.Name </td>
+                    <td>@item.DateCreate</td>
+                    <td>@item.DateFinish</td>
+                    <td>@item.Deadline</td>
+                    <td>@String.Join(",", item.Tags)</td>
+                    <td>@item.Category</td>
+                    <td>@item.Priority</td>
+                    <td>@item.Comment</td>
+                    <td><a asp-controller="Home" asp-action="FinishTask" asp-route-id=@item.Id>Завершить</a></td>
+                    <td><button asp-controller="Home" asp-action="FinishTask" asp-route-id=@item.Id>Изменить</button></td>
+                </tr>
+
+            }
+
+           
+        </tbody>
+  </table>
+
 </div>

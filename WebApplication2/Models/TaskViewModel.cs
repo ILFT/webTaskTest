@@ -4,28 +4,16 @@
     {
         public int Id { get; }
         public string Name { get; }
-        public DateTime DateCreate { get; }
-        public DateTime? DateFinish { get; }
-        public DateTime Deadline { get; }
+        public DateOnly DateCreate { get; }
+        public DateOnly? DateFinish { get; }
+        public DateOnly Deadline { get; }
         public string[] Tags { get; }
         public string Category { get; }
         public string Priority { get; }
         public string Comment { get; }
 
 
-      /*  public TaskViewModel(TaskViewModel task)
-        {
-            Id = task.Id;
-            Name = task.Name;
-            DateCreate = task.DateCreate;
-            DateFinish = task.DateFinish;
-            Deadline = task.Deadline;
-            Tags = task.Tags;
-            Category = task.Category;
-            Priority = task.Priority;
-            Comment = task.Comment;
-        }*/
-        public TaskViewModel(int id, string name, DateTime dateCreate, DateTime? dateFinish, DateTime deadline, string category, string priority, string comment, string[] tags )
+        public TaskViewModel(int id, string name, DateOnly dateCreate, DateOnly? dateFinish, DateOnly deadline, string category, string priority, string comment, string[] tags )
         {
             Id = id;
             Name = name;

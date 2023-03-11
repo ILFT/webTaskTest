@@ -19,7 +19,7 @@ namespace WebApplication2.Models.Db
             await using (var cmd = new NpgsqlCommand(commandText, connection))
             {
                 cmd.Parameters.AddWithValue("nameTask", task.Name);
-                cmd.Parameters.AddWithValue("duration", (task.Deadline - task.DateCreate).Days);
+                cmd.Parameters.AddWithValue("duration", task.Deadline.DayNumber - task.DateCreate.DayNumber);
                 cmd.Parameters.AddWithValue("nameCategories", task.Category);
                 cmd.Parameters.AddWithValue("namePriority", task.Priority);
                 cmd.Parameters.AddWithValue("commentTask", task.Comment);
@@ -31,14 +31,14 @@ namespace WebApplication2.Models.Db
 
         }
 
-        public async Task FinishTask(TaskViewModel task)
+        public async Task FinishTask(int id)
         {
             var connection = (new DbContext()).connection;
             string commandText = $"UPDATE TASKS SET dataFinish = current_date WHERE dataFinish IS NULL and id = @id";
 
             await using (var cmd = new NpgsqlCommand(commandText, connection))
             {
-                cmd.Parameters.AddWithValue("id", task.Id);
+                cmd.Parameters.AddWithValue("id", id);
 
                 await cmd.ExecuteNonQueryAsync();
 
@@ -46,14 +46,14 @@ namespace WebApplication2.Models.Db
 
         }
 
-        public async Task DeleteTask(TaskViewModel task)
+        public async Task DeleteTask(int id)
         {
             var connection = (new DbContext()).connection;
             string commandText = $"DELETE FROM TASKS  WHERE id = @id";
 
             await using (var cmd = new NpgsqlCommand(commandText, connection))
             {
-                cmd.Parameters.AddWithValue("id", task.Id);
+                cmd.Parameters.AddWithValue("id", id);
 
                 await cmd.ExecuteNonQueryAsync();
 
@@ -97,7 +97,7 @@ namespace WebApplication2.Models.Db
 
             NpgsqlDataReader reader = (new NpgsqlCommand(commandText, connection)).ExecuteReader();
             while (reader.Read())
-                resultList.Add(new TaskViewModel((int)reader[0], (string)reader[1], (DateTime)reader[2], (reader[3] == DBNull.Value) ? null : (DateTime)reader[3], (DateTime)reader[4], (string)reader[5], (string)reader[6], (string)reader[7], (string[])reader[8]));
+                resultList.Add(new TaskViewModel((int)reader[0], (string)reader[1], DateOnly.FromDateTime((DateTime)reader[2]), (reader[3] == DBNull.Value) ? null : DateOnly.FromDateTime((DateTime)reader[3]), DateOnly.FromDateTime((DateTime)reader[4]), (string)reader[5], (string)reader[6], (string)reader[7], (string[])reader[8]));
              
             return resultList;
 
