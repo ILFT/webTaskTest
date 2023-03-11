@@ -28,8 +28,10 @@ namespace WebApplication2.Controllers
             return View(); 
         }
 
-        public IActionResult CreateTask()
+        public IActionResult CreateTask(string name, DateTime deadline, string[] tags, string category, string priority, string comment)
         {
+            
+            new DbTasks().AddTask(new TaskViewModel(name, DateOnly.FromDateTime(deadline), category, priority, comment, tags));
             return RedirectToAction("Index");
         }
 

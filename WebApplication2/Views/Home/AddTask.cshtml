@@ -9,15 +9,16 @@
 
 }
 
+
 <h1>@ViewData["Title"]</h1>
 
 
-<form asp-controller="Home" asp-action="CreateTask">
+<form asp-controller="Home" asp-action="CreateTask" method="post">
     <fieldset>
         <legend>Название задачи</legend>
         <ul>
             <li>
-                <input type="text" name="name" id="name" required>
+                <input type="text" name="Name" required>
             </li>
         </ul>
     </fieldset>
@@ -25,7 +26,7 @@
         <legend>Дедлайн</legend>
         <ul>
             <li>
-                <input type="number" name="deadline" id="deadline" required>
+                <input type="date" name="Deadline" required>
             </li>
         </ul>
     </fieldset>
@@ -35,8 +36,8 @@
             @foreach (var tag in tags)
             {
                 <li>
-                    <input type="checkbox" name="tag" id="tag">
-                    <label for="tag">@tag</label>
+                    <input type="checkbox" name="Tags" value=@tag>
+                    <label name="Tags">@tag</label>
                 </li>
             }
         </ul>
@@ -47,8 +48,8 @@
             @foreach (var category in categories)
             {
                 <li>
-                    <input type="radio" name="category" id="front" value="category" checked>
-                    <label for="category">@category</label>
+                    <input name="Category" type="radio" value=@category>
+                    <label name="Category">@category</label>
                 </li>
             }
         </ul>
@@ -59,15 +60,15 @@
             @foreach (var priority in priorites)
             {
                 <li>
-                    <input type="radio" name="priority" id="priority" value="priority" checked>
-                    <label for="priority">@priority</label>
+                    <input name="Priority" type="radio" value=@priority>
+                    <label name="Priority">@priority</label>
                 </li>
             }
         </ul>
     </fieldset>
     <div>
         <legend>Коментарий</legend>
-        <textarea name="comment" id="comment"></textarea>
+        <textarea name="Comment"></textarea>
     </div>
     <div>
         <button type="submit">Отправить</button>

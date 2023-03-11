@@ -14,8 +14,8 @@ namespace WebApplication2.Models.Db
         }
         public async Task AddTask(TaskViewModel task) {
             var connection = (new DbContext()).connection;
-            string commandText = $"WITH NEW_TASK AS (INSERT INTO TASKS (name, dataCreate, dataFinish, deadline, category, priority, comment) values (@nameTask, current_date, NULL, current_date + @duration, (SELECT id FROM CATEGORY WHERE name = @nameCategories), (SELECT id FROM PRIORITY WHERE name = @namePriority), @commentTask ) returning id) INSERT INTO task_tag SELECT (SELECT id FROM NEW_TASK), tag.id FROM  tag  WHERE tag.name = ANY(tagArray)";
-            
+            string commandText = $"WITH NEW_TASK AS (INSERT INTO TASKS (name, dataCreate, dataFinish, deadline, category, priority, comment) values (@nameTask, current_date, NULL, current_date + @duration, (SELECT id FROM CATEGORY WHERE name = @nameCategories), (SELECT id FROM PRIORITY WHERE name = @namePriority), @commentTask ) returning id) INSERT INTO task_tag SELECT (SELECT id FROM NEW_TASK), tag.id FROM  tag  WHERE tag.name = ANY(@tagArray)";
+
             await using (var cmd = new NpgsqlCommand(commandText, connection))
             {
                 cmd.Parameters.AddWithValue("nameTask", task.Name);
@@ -24,7 +24,7 @@ namespace WebApplication2.Models.Db
                 cmd.Parameters.AddWithValue("namePriority", task.Priority);
                 cmd.Parameters.AddWithValue("commentTask", task.Comment);
                 cmd.Parameters.AddWithValue("tagArray", task.Tags);
-
+                
                 await cmd.ExecuteNonQueryAsync();
 
             }

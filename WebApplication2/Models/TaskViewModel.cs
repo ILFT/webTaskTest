@@ -2,7 +2,7 @@
 {
     public class TaskViewModel
     {
-        public int Id { get; }
+        public int? Id { get; }
         public string Name { get; }
         public DateOnly DateCreate { get; }
         public DateOnly? DateFinish { get; }
@@ -19,6 +19,20 @@
             Name = name;
             DateCreate = dateCreate;
             DateFinish = dateFinish;
+            Deadline = deadline;
+            Tags = tags;
+            Category = category;
+            Priority = priority;
+            Comment = comment;
+        }
+
+
+        public TaskViewModel(string name, DateOnly deadline, string category, string priority, string comment, string[] tags)
+        {
+            Id = null;
+            Name = name;
+            DateCreate = DateOnly.FromDateTime(DateTime.Now);
+            DateFinish = null;
             Deadline = deadline;
             Tags = tags;
             Category = category;
