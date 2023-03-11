@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Изменить задачу";
+}
+@{
+
+    List<string> tags = ViewData["Tags"] is null ? null : (List<string>)ViewData["Tags"];
+    List<string> categories = ViewData["Categories"] is null ? null : (List<string>)ViewData["Categories"];
+    List<string> priorites = ViewData["Priority"] is null ? null : (List<string>)ViewData["Priority"];
+
+}
+@model TaskViewModel
+
+<h1>@ViewData["Title"]</h1>
+
+
+<form asp-controller="Home" asp-action="UpdateTask" method="post">
+    <fieldset>
+        <legend>Название задачи</legend>
+        <ul>
+            <li>
+                <input type="text" name="Name" required value=@Model.Name>
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Дата создания</legend>
+        <ul>
+            <li>
+                <input type="date" name="DateCreate" required value=@Model.DateCreate>
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Дата завершения</legend>
+        <ul>
+            <li>
+                <input type="date" name="DateFinish" required value=@Model.DateFinish>
+            </li>
+        </ul>
+    </fieldset>
+
+    <fieldset>
+        <legend>Дедлайн</legend>
+        <ul>
+            <li>
+                <input type="date" name="Deadline" required value=@Model.Deadline>
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Теги</legend>
+        <ul>
+            @foreach (var tag in tags)
+            {
+                <li>
+                    <input type="checkbox" name="Tags" value=@tag>
+                    <label name="Tags">@tag</label>
+                </li>
+            }
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Категория</legend>
+        <ul>
+            @foreach (var category in categories)
+            {
+                <li>
+                    <input name="Category" type="radio" value=@category>
+                    <label name="Category">@category</label>
+                </li>
+            }
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Приоритет</legend>
+        <ul>
+            @foreach (var priority in priorites)
+            {
+                <li>
+                    <input name="Priority" type="radio" value=@priority>
+                    <label name="Priority">@priority</label>
+                </li>
+            }
+        </ul>
+    </fieldset>
+    <div>
+        <legend>Коментарий</legend>
+        <textarea name="Comment">@Model.Comment</textarea>
+    </div>
+    <div>
+        <input name="id" type="hidden" value=@Model.Id>
+        <button type="submit">Отправить</button>
+    </div>
+</form>
+
+

@@ -22,10 +22,10 @@
         </thead>
         <tbody>
             
-            @foreach (var item in Model)
+            @foreach (TaskViewModel item in Model)
             {
                 <tr>
-
+                    
                     <td>@item.Name </td>
                     <td>@item.DateCreate</td>
                     <td>@item.DateFinish</td>
@@ -35,7 +35,9 @@
                     <td>@item.Priority</td>
                     <td>@item.Comment</td>
                     <td><a asp-controller="Home" asp-action="FinishTask" asp-route-id=@item.Id>Завершить</a></td>
-                    <td><button asp-controller="Home" asp-action="FinishTask" asp-route-id=@item.Id>Изменить</button></td>
+                    <td><a asp-controller="Home" asp-action="RedactTask" asp-route-id=@item.Id>Изменить</a></td>
+                    <td><a asp-controller="Home" asp-action="DeleteTask" asp-route-id=@item.Id>Удалить</a></td>
+
                 </tr>
 
             }

@@ -102,5 +102,20 @@ namespace WebApplication2.Models.Db
             return resultList;
 
         }
+
+        public TaskViewModel GetTasks(int id)
+        {
+            var connection = (new DbContext()).connection;
+            string commandText = $"SELECT tasks.id, tasks.name, tasks.datacreate, tasks.datafinish, tasks.deadline, category.name, priority.name, tasks.comment, array_agg(tag.name) FROM tasks INNER JOIN category ON tasks.category = category.id INNER JOIN priority ON tasks.priority = priority.id LEFT JOIN task_tag ON tasks.id = task_tag.idTask LEFT JOIN tag ON task_tag.idTag = tag.id WHERE tasks.id = @id GROUP BY tasks.id, category.name, priority.name ";
+
+            List<TaskViewModel> resultList = new List<TaskViewModel>();
+            NpgsqlCommand cmd = new NpgsqlCommand(commandText, connection);
+            cmd.Parameters.AddWithValue("id", id);
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+            reader.Read();
+            return new TaskViewModel((int)reader[0], (string)reader[1], DateOnly.FromDateTime((DateTime)reader[2]), (reader[3] == DBNull.Value) ? null : DateOnly.FromDateTime((DateTime)reader[3]), DateOnly.FromDateTime((DateTime)reader[4]), (string)reader[5], (string)reader[6], (string)reader[7], (string[])reader[8]);
+
+        }
+
     }
 }

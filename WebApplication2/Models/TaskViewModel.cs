@@ -13,7 +13,24 @@
         public string Comment { get; }
 
 
+        public TaskViewModel()
+        {
+        }
+
+
         public TaskViewModel(int id, string name, DateOnly dateCreate, DateOnly? dateFinish, DateOnly deadline, string category, string priority, string comment, string[] tags )
+        {
+            Id = id;
+            Name = name;
+            DateCreate = dateCreate;
+            DateFinish = dateFinish;
+            Deadline = deadline;
+            Tags = tags;
+            Category = category;
+            Priority = priority;
+            Comment = comment;
+        }
+        public TaskViewModel(int id, string name, DateOnly dateCreate, DateOnly dateFinish, DateOnly deadline, string category, string priority, string comment, string[] tags)
         {
             Id = id;
             Name = name;
