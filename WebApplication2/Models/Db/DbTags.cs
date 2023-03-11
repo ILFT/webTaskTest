@@ -7,10 +7,10 @@ namespace WebApplication2.Models.Db
 
         public DbTags() { }
 
-        public string[] AllTags()
+        public List<string> AllTags()
         {
             var connection = (new DbContext()).connection;
-            string commandText = $"select name from tags";
+            string commandText = $"select name from tag";
             List<string> resultList = new List<string>();
 
             NpgsqlDataReader reader = (new NpgsqlCommand(commandText, connection)).ExecuteReader();
@@ -19,7 +19,7 @@ namespace WebApplication2.Models.Db
                 resultList.Add(reader[0].ToString());
             }
 
-            return resultList.ToArray();
+            return resultList;
 
         }
 

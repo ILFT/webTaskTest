@@ -9,7 +9,7 @@ namespace WebApplication2.Models.Db
 
         public DbCategories() { }
 
-        public string[] AllCategories()
+        public List<string> AllCategories()
         {
             var connection = (new DbContext()).connection;
             string commandText = $"select name from category";
@@ -21,7 +21,7 @@ namespace WebApplication2.Models.Db
                 resultList.Add(reader[0].ToString());
             }
                 
-            return resultList.ToArray();
+            return resultList;
 
         }
     }

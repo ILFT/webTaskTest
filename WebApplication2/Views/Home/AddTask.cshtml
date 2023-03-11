@@ -1,6 +1,77 @@
 ﻿@{
     ViewData["Title"] = "Добавить задачу";
 }
+@{
+
+    List<string> tags = ViewData["Tags"] is null ? null : (List<string>)ViewData["Tags"];
+    List<string> categories = ViewData["Categories"] is null ? null : (List<string>)ViewData["Categories"];
+    List<string> priorites = ViewData["Priority"] is null ? null : (List<string>)ViewData["Priority"];
+
+}
+
 <h1>@ViewData["Title"]</h1>
+
+
+<form asp-controller="Home" asp-action="CreateTask">
+    <fieldset>
+        <legend>Название задачи</legend>
+        <ul>
+            <li>
+                <input type="text" name="name" id="name" required>
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Дедлайн</legend>
+        <ul>
+            <li>
+                <input type="number" name="deadline" id="deadline" required>
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Теги</legend>
+        <ul>
+            @foreach (var tag in tags)
+            {
+                <li>
+                    <input type="checkbox" name="tag" id="tag">
+                    <label for="tag">@tag</label>
+                </li>
+            }
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Категория</legend>
+        <ul>
+            @foreach (var category in categories)
+            {
+                <li>
+                    <input type="radio" name="category" id="front" value="category" checked>
+                    <label for="category">@category</label>
+                </li>
+            }
+        </ul>
+    </fieldset>
+    <fieldset>
+        <legend>Приоритет</legend>
+        <ul>
+            @foreach (var priority in priorites)
+            {
+                <li>
+                    <input type="radio" name="priority" id="priority" value="priority" checked>
+                    <label for="priority">@priority</label>
+                </li>
+            }
+        </ul>
+    </fieldset>
+    <div>
+        <legend>Коментарий</legend>
+        <textarea name="comment" id="comment"></textarea>
+    </div>
+    <div>
+        <button type="submit">Отправить</button>
+    </div>
+</form>
 
 

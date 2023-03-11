@@ -3,6 +3,6 @@
     public class CategoresViewModel
     {
         private int[] _id;
-        public string[] Names { get; }
+        public List<string> Names { get; }
     }
 }

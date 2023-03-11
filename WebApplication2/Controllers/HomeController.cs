@@ -22,7 +22,15 @@ namespace WebApplication2.Controllers
 
         public IActionResult AddTask()
         {
-            return View();
+            ViewData["Tags"] = new DbTags().AllTags();
+            ViewData["Categories"] = new DbCategories().AllCategories();
+            ViewData["Priority"] = new DbPriorites().AllPriorites();
+            return View(); 
+        }
+
+        public IActionResult CreateTask()
+        {
+            return RedirectToAction("Index");
         }
 
         public IActionResult FinishTask(int id)

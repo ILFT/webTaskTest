@@ -6,7 +6,7 @@ namespace WebApplication2.Models.Db
     {
         public DbPriorites() { }
 
-        public string[] AllPriorites()
+        public List<string> AllPriorites()
         {
             var connection = (new DbContext()).connection;
             string commandText = $"select name from priority";
@@ -18,7 +18,7 @@ namespace WebApplication2.Models.Db
                 resultList.Add(reader[0].ToString());
             }
 
-            return resultList.ToArray();
+            return resultList;
 
         }
 
